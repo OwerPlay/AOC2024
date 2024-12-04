@@ -30,9 +30,17 @@ func Abs(x int) int {
 	return x
 }
 
-func Benchmark(f func()) {
-	start := time.Now()          // Record the start time
-	f()                          // Execute the passed function
-	elapsed := time.Since(start) // Calculate elapsed time
-	fmt.Printf("Execution time: %s\n", elapsed)
+func Benchmark(f func() int, iterations int) int {
+	result := f()
+
+	start := time.Now()
+	for i := 0; i < iterations; i++ {
+		_ = f()
+	}
+	elapsed := time.Since(start)
+
+	fmt.Printf("Execution time (%d iterations): %s\n", iterations, elapsed)
+	fmt.Printf("Avg. execution time: %s\n", elapsed/time.Duration(iterations))
+
+	return result
 }
